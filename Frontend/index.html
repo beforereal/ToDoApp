@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Weather Forcast</h1>
+    <ul id="weather-list">
+        <li>
+            <p id="date">Date: 2022-08-02T19:27:46.9268054+03:00</p>
+            <p>summary: Freezing</p>
+        </li>
+    </ul>
+    <button onclick="update()">Update</button>
+
+    <script type="text/javascript">
+        window.addEventListener('load', (event) => {
+            console.log('page is fully loaded');
+        });
+
+        async function update() {
+            const weatherList = document.getElementById('weather-list');
+
+            let weatherListContent = 'Loading....';
+            weatherList.innerHTML = weatherListContent;
+
+            const weatherDataResult = await fetch('https://localhost:7001/weatherforecast');
+            const weatherData = await weatherDataResult.json();
+
+            console.log(weatherData);
+
+            weatherListContent = '';
+
+            for(const weather of weatherData) {
+                let weatherContent = `
+                    <li>
+                        <p>${weather.date}</p>
+                        <p>${weather.summary}</p>
+                    </li>`;
+
+                    weatherListContent += weatherContent;
+            }
+
+            weatherList.innerHTML = weatherListContent;
+        }
+
+    </script>
+</body>
+
+</html>
